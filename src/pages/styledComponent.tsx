@@ -1,5 +1,7 @@
 import Head from 'next/head'
 import styled from 'styled-components'
+import SyntaxHighlighter from 'react-syntax-highlighter'
+import { monokaiSublime } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 
 export default function StyledComponentPage() {
   return (
@@ -28,6 +30,58 @@ export default function StyledComponentPage() {
             <li>@types/styled-components (TypeScript)</li>
             <li>babel-plugin-styled-components (Next)</li>
           </ul>
+          <h2>セットアップ</h2>
+          <p>Next.js + TypeScriptに追加する形でセットアップする。</p>
+
+          <h3>1. ライブラリを導入する</h3>
+          <SyntaxHighlighter language='bash' style={monokaiSublime}>
+            {`
+# npmの場合
+$ npm install --save-dev styled-components
+$ npm install --save-dev @types/styled-components babel-plugin-styled-components
+
+# yarnの場合
+$ yarn add -D styled-components
+$ yarn add -D @types/styled-components babel-plugin-styled-components
+`}
+          </SyntaxHighlighter>
+          <h3>2. バベる(Next.jsの場合のみ)</h3>
+          <p>
+            [1] babelの設定ファイル<code>.babelrc</code>
+            をプロジェクトルートに作る。
+          </p>
+          <span>package.jsonと同じ階層に置けばOK</span>
+          <p>[2] .babelrcの中身を書く</p>
+          <SyntaxHighlighter language='json' style={monokaiSublime}>
+            {`
+{
+    "presets": ["next/babel"],
+    "plugins": [["styled-components"]]
+}
+`}
+          </SyntaxHighlighter>
+          <h3>3. 一旦ビルドする(Next.jsの場合のみ)</h3>
+          <p>自分の環境では一度ビルドしないとエラーが出た(普通はいらない)</p>
+          <h2>使い方</h2>
+          <SyntaxHighlighter language='javascript' style={monokaiSublime}>
+            {`
+import styled from 'styled-components'
+
+// スタイルを適用したh1を"StyledTitle"という名前で定義
+const StyledTitle = styled.h1\`
+  padding: 1rem;
+  font-color: red;
+  font-weight: bold;
+\`
+
+export default function styledComponent() {
+  return (
+    // 定義したコンポーネントはこのようにして使用
+    <StyledTitle>This is Title</StyledTitle>
+  )
+}
+`}
+          </SyntaxHighlighter>
         </Main>
       </Container>
       <Footer>
